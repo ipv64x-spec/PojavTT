@@ -1,0 +1,45 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+// Each of these is an independent Fabric Loom project targeting one specific
+// Minecraft version. They all compile the SAME shared source in /common -
+// see /common/README.md - plus their own small version-specific
+// src/main/java/com/pojavtiers/tagger/util/CompatUtil.java.
+//
+// Building the whole thing (./gradlew build) builds all 12 jars at once,
+// one per Minecraft version, each in its own versions/<version>/build/libs/.
+// To build just one, e.g.: ./gradlew :1.21.11:build
+
+include(':1.21')
+include(':1.21.1')
+include(':1.21.2')
+include(':1.21.3')
+include(':1.21.4')
+include(':1.21.5')
+include(':1.21.6')
+include(':1.21.7')
+include(':1.21.8')
+include(':1.21.9')
+include(':1.21.10')
+include(':1.21.11')
+
+project(':1.21').projectDir = file('versions/1.21')
+project(':1.21.1').projectDir = file('versions/1.21.1')
+project(':1.21.2').projectDir = file('versions/1.21.2')
+project(':1.21.3').projectDir = file('versions/1.21.3')
+project(':1.21.4').projectDir = file('versions/1.21.4')
+project(':1.21.5').projectDir = file('versions/1.21.5')
+project(':1.21.6').projectDir = file('versions/1.21.6')
+project(':1.21.7').projectDir = file('versions/1.21.7')
+project(':1.21.8').projectDir = file('versions/1.21.8')
+project(':1.21.9').projectDir = file('versions/1.21.9')
+project(':1.21.10').projectDir = file('versions/1.21.10')
+project(':1.21.11').projectDir = file('versions/1.21.11')

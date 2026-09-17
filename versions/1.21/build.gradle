@@ -1,0 +1,68 @@
+plugins {
+    id 'fabric-loom' version "${loom_version}"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name + "-" + project.minecraft_version
+}
+
+repositories {
+    // ModMenu
+    maven { url = "https://maven.terraformersmc.com/releases/" }
+    mavenCentral()
+}
+
+// Pulls in the version-agnostic mod source shared by every Minecraft-version
+// module. This module's own src/main/java only contains CompatUtil.java -
+// the handful of APIs that actually differ between Minecraft versions.
+sourceSets {
+    main {
+        java {
+            srcDir '../../common/src/main/java'
+        }
+        resources {
+            srcDir '../../common/src/main/resources'
+        }
+    }
+}
+
+dependencies {
+    // To change the versions see this module's own gradle.properties
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    // Fabric API
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // ModMenu (optional, for in-game config button)
+    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "loader_version", project.loader_version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "loader_version": project.loader_version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+    from("${rootDir}/LICENSE") {
+        rename { "${it}_${base.archivesName.get()}" }
+    }
+}

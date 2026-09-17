@@ -1,0 +1,4 @@
+// This is now a multi-version project - see settings.gradle.
+// Each Minecraft version has its own Loom project under versions/<version>/,
+// so there is nothing to build at the root itself. Running any Gradle task
+// here (e.g. `./gradlew build`) runs it across every included version module.
