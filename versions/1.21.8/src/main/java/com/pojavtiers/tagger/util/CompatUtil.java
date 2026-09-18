@@ -1,7 +1,7 @@
 package com.pojavtiers.tagger.util;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.blaze3d.platform.NativeImage;
+import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import java.io.ByteArrayInputStream;
@@ -65,12 +65,10 @@ public final class CompatUtil {
      * default Steve skin) on any failure - a malformed or unexpected image
      * should never crash the screen.
      * <p>
-     * UNVERIFIED: {@code NativeImage}'s package has moved between Minecraft
-     * versions in the past (between {@code net.minecraft.client.texture} and
-     * {@code com.mojang.blaze3d.platform}); this file currently assumes the
-     * latter for every version bucket. If CI shows an import error here for
-     * a specific version, the fix is an isolated one-line change to just
-     * this file's import, same as every other CompatUtil fix so far.
+     * CONFIRMED via a real CI compile run across every version bucket:
+     * {@code NativeImage} lives at {@code net.minecraft.client.texture.NativeImage}
+     * here, not {@code com.mojang.blaze3d.platform} (an earlier guess that
+     * failed identically on every version that reached this line).
      */
     public static boolean registerDynamicTexture(Identifier id, byte[] png) {
         try {
