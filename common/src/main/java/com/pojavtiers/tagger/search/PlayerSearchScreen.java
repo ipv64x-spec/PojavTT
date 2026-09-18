@@ -59,16 +59,6 @@ public class PlayerSearchScreen extends Screen {
                 .build());
     }
 
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        // Enter submits the search, same as clicking the button.
-        if ((keyCode == 257 || keyCode == 335) && this.nameField.isFocused()) {
-            doSearch();
-            return true;
-        }
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
     private void doSearch() {
         String username = this.nameField.getText().trim();
         if (username.isEmpty() || searching) return;
