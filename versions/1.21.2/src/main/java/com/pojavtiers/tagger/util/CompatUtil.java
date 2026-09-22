@@ -62,18 +62,17 @@ public final class CompatUtil {
      * default Steve skin) on any failure - a malformed or unexpected image
      * should never crash the screen.
      * <p>
-     * CONFIRMED via real CI compile runs across every version bucket:
-     * {@code NativeImage} lives at {@code net.minecraft.client.texture.NativeImage}
-     * here, not {@code com.mojang.blaze3d.platform} (an earlier guess that
-     * failed identically on every version that reached this line), and
-     * {@code NativeImageBackedTexture}'s constructor needs a debug-label
-     * {@code Supplier<String>} as its first argument (a bare
-     * {@code NativeImageBackedTexture(NativeImage)} overload doesn't exist).
+     * CONFIRMED via real CI compile runs: {@code NativeImage} lives at
+     * {@code net.minecraft.client.texture.NativeImage} here. On this version,
+     * {@code NativeImageBackedTexture} only exposes the
+     * {@code (NativeImage)} and {@code (int, int, boolean)} constructors -
+     * the {@code (Supplier<String>, NativeImage)} debug-label overload was
+     * only added starting with 1.21.5, so it must not be used here.
      */
     public static boolean registerDynamicTexture(Identifier id, byte[] png) {
         try {
             NativeImage image = NativeImage.read(new ByteArrayInputStream(png));
-            NativeImageBackedTexture texture = new NativeImageBackedTexture(() -> "pojavtiertagger_search_skin", image);
+            NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
             MinecraftClient.getInstance().getTextureManager().registerTexture(id, texture);
             return true;
         } catch (Exception e) {
